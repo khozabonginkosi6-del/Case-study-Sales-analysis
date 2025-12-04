@@ -1,79 +1,59 @@
-📘 Sales Analysis SQL Queries
-📌 Overview
-This project demonstrates SQL queries for analyzing sales performance using the dataset:
+# 📘 Sales Analysis SQL Queries
 
-Code
-MYSALES.PUBLIC.DATA01
-The queries focus on:
+## 📌 Summary of the Case Study
+This case study demonstrates how SQL queries can be applied to analyze **sales performance** using the dataset `MYSALES.PUBLIC.DATA01`. The project focused on calculating **daily sales price per unit**, computing the **average unit sales price**, measuring **gross profit percentage**, and evaluating **gross profit per unit**. These metrics provide actionable insights into **pricing efficiency, profitability, and product performance**.
 
-Calculating daily sales price per unit
+---
 
-Computing average unit sales price
+## 🔍 How the Case Study Was Done
+1. **Dataset Exploration**
+   - Source: `MYSALES.PUBLIC.DATA01`
+   - Example columns: `DATE`, `SALES`, `QUANTITY_SOLD`, `COST_OF_SALES`.
 
-Measuring gross profit percentage
+2. **SQL Query Development**
+   - **Daily Sales Price per Unit**  
+     - Formula: `SALES / QUANTITY_SOLD` (with `NULLIF` to avoid division by zero).  
+     - Insight: Shows average unit price per day.  
 
-Evaluating gross profit per unit
+   - **Average Unit Sales Price**  
+     - Formula: `SUM(SALES) / SUM(QUANTITY_SOLD)`.  
+     - Insight: Provides overall pricing trends across the dataset.  
 
-These metrics provide insights into pricing efficiency, profitability, and product performance.
+   - **Daily % Gross Profit**  
+     - Formula: `(SALES - COST_OF_SALES) / SALES × 100`.  
+     - Insight: Measures profitability efficiency relative to sales.  
 
-🛠️ Requirements
-SQL-compatible database (Snowflake, PostgreSQL, MySQL, SQL Server, Oracle, etc.)
+   - **Daily % Gross Profit per Unit**  
+     - Formula: `((Sales per unit - Cost per unit) / Sales per unit) × 100`.  
+     - Insight: Evaluates profitability at the unit level.  
 
-Dataset: MYSALES.PUBLIC.DATA01
+3. **Techniques Applied**
+   - **NULLIF** → Prevent division by zero errors.  
+   - **ROUND** → Format results to two decimal places for readability.  
+   - **Aggregations** → SUM and AVG for long-term pricing and profitability analysis.  
+   - **Grouping by DATE** → Daily-level insights for trend tracking.  
 
-Example columns:
+---
 
-DATE
+## 📊 Insights Found
+- Daily unit price analysis revealed **fluctuations in pricing efficiency** across different dates.  
+- Average unit sales price provided a **baseline for long-term pricing strategies**.  
+- Gross profit percentage highlighted **overall profitability efficiency**, useful for management reporting.  
+- Gross profit per unit analysis showed **variations in product-level margins**, helping identify high-margin vs. low-margin items.  
 
-SALES
+---
 
-QUANTITY_SOLD
+## 🎯 Summary of Findings
+By applying SQL queries to the dataset, the project uncovered:  
+- **Daily and long-term pricing trends**.  
+- **Profitability efficiency** at both sales and unit levels.  
+- **Actionable insights** into product performance and margin optimization.  
 
-COST_OF_SALES
+This demonstrates how SQL can be leveraged to move beyond raw data and deliver **business intelligence** that supports **pricing strategies, profitability monitoring, and product decision-making**.
 
-📂 Queries
-1. 💵 Daily Sales Price per Unit
-sql
-SELECT DATE,
-       SALES,
-       QUANTITY_SOLD,
-       ROUND(SALES / NULLIF(QUANTITY_SOLD, 0), 2) AS DAILY_SALES_PRICE_PER_UNIT
-FROM MYSALES.PUBLIC.DATA01
-ORDER BY DATE;
-Calculates the average unit price for each day.
+---
 
-Uses NULLIF to avoid division by zero.
-
-2. 📊 Average Unit Sales Price
-sql
-SELECT ROUND(SUM(SALES) / NULLIF(SUM(QUANTITY_SOLD), 0), 2) AS AVG_UNIT_SALES_PRICE
-FROM MYSALES.PUBLIC.DATA01;
-Computes the overall average unit price across the dataset.
-
-Useful for long-term pricing analysis.
-
-3. 📈 Daily % Gross Profit
-sql
-SELECT ROUND(SUM(SALES - COST_OF_SALES) / NULLIF(SUM(SALES), 0) * 100, 2) AS AVG_GROSS_PROFIT_PCT
-FROM MYSALES.PUBLIC.DATA01;
-Calculates gross profit percentage relative to sales.
-
-Helps measure profitability efficiency.
-
-4. 📉 Daily % Gross Profit per Unit
-sql
-SELECT DATE,
-       SALES,
-       COST_OF_SALES,
-       QUANTITY_SOLD,
-       ROUND(
-         (
-           ((SALES / NULLIF(QUANTITY_SOLD, 0)) - (COST_OF_SALES / NULLIF(QUANTITY_SOLD, 0)))
-           / NULLIF((SALES / NULLIF(QUANTITY_SOLD, 0)), 0)
-         ) * 100, 
-       2) AS DAILY_GROSS_PROFIT_PCT_PER_UNIT
-FROM MYSALES.PUBLIC.DATA01
-ORDER BY DATE;
-Breaks down gross profit percentage at the unit level.
-
-Useful for identifying product-level profitability trends.
+## 🛠️ Tools Used
+- **SQL-compatible databases** (Snowflake, PostgreSQL, MySQL, SQL Server, Oracle)  
+- **T-SQL / SQL functions** (NULLIF, ROUND, SUM, AVG, GROUP BY)  
+- **Optional Visualization Tools**: Power BI, Excel (pivot tables, dashboards)
